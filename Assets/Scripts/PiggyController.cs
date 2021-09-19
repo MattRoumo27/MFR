@@ -25,9 +25,9 @@ public class PiggyController : EnemyController
     #region CheckIfPlayerIsInSight
     void CheckIfPlayerIsInSight()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(direction, 0), 10.0f, LayerMask.GetMask("Player"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(direction, 0), 10.0f, ~LayerMask.GetMask("Enemy"));
 
-        if (hit.collider != null)
+        if (hit.collider != null && LayerMask.LayerToName(hit.collider.gameObject.layer) == "Player")
         {
             isRaging = true;
             animator.SetBool("IsRaging", true);
