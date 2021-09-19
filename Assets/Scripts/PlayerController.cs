@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region StateMachine
+    enum StateMachine
+    {
+        LockMovement, UnlockedMovement
+    }
+
+    float lockMovementTimer;
+    StateMachine playerStateMachine;
+    #endregion
+
     #region Character Movement
     Rigidbody2D rb;
     float horizontal;
@@ -25,18 +35,83 @@ public class PlayerController : MonoBehaviour
     Vector2 lookDirection = new Vector2(1, 0);
     #endregion
 
+    #region Health
+    public int maxHealth = 3;
+    public int health { get { return currentHealth; } }
+    int currentHealth;
+    #endregion
+
+    #region Invincibility
+    bool isInvincible;
+    float invincibleTimer;
+    public float timeInvincible = 2.0f;
+    #endregion
+
     #region Start
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        currentHealth = maxHealth;
+        playerStateMachine = StateMachine.LockMovement;
+        animator.SetFloat("LookX", lookDirection.x);
+        SetLockTime(1);
     }
     #endregion
 
     #region Update
     // Update is called once per frame
     void Update()
+    {
+        switch (playerStateMachine)
+        {
+            case StateMachine.LockMovement:
+                ManageMovementLock();
+                break;
+            case StateMachine.UnlockedMovement:
+                GetInputs();
+                SetLookDirection();
+                CheckInvincibility();
+                break;
+        }
+    }
+    #endregion
+
+    #region FixedUpdate
+    void FixedUpdate()
+    {
+        switch (playerStateMachine)
+        {
+            case StateMachine.LockMovement:
+                break;
+            case StateMachine.UnlockedMovement:
+                PhysicsMovement();
+                break;
+        }
+    }
+    #endregion
+
+    #region SetLockTime
+    public void SetLockTime(float seconds)
+    {
+        lockMovementTimer = seconds;
+    }
+    #endregion
+
+    #region Update Helpers
+
+    #region ManageMovementLock
+    void ManageMovementLock()
+    {
+        lockMovementTimer -= Time.deltaTime;
+        if (lockMovementTimer < 0)
+            playerStateMachine = StateMachine.UnlockedMovement;
+    }
+    #endregion
+
+    #region GetInputs
+    void GetInputs()
     {
         horizontal = Input.GetAxis("Horizontal");
 
@@ -45,7 +120,12 @@ public class PlayerController : MonoBehaviour
             buttonDownJump = true;
             animator.SetBool("IsJumping", true);
         }
+    }
+    #endregion
 
+    #region SetLookDirection
+    void SetLookDirection()
+    {
         Vector2 move = new Vector2(horizontal, 0);
 
         if (!Mathf.Approximately(move.x, 0.0f))
@@ -59,8 +139,22 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region FixedUpdate
-    void FixedUpdate()
+    #region CheckInvincibility
+    void CheckInvincibility()
+    {
+        if (isInvincible)
+        {
+            invincibleTimer -= Time.deltaTime;
+            if (invincibleTimer < 0)
+                isInvincible = false;
+        }
+    }
+    #endregion
+    #endregion
+
+    #region FixedUpdate Helpers
+    #region PhysicsMovement
+    void PhysicsMovement()
     {
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
 
@@ -91,6 +185,41 @@ public class PlayerController : MonoBehaviour
                     animator.SetBool("IsJumping", false);
             }
         }
+    }
+    #endregion
+    #endregion
+
+    #region ChangeHealth
+    public void ChangeHealth(int amount)
+    {
+        if (amount < 0)
+        {
+            if (isInvincible)
+                return;
+
+            Debug.Log("Change Health");
+
+            animator.SetTrigger("Hit");
+
+            isInvincible = true;
+            invincibleTimer = timeInvincible;
+        }
+
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+
+        Debug.Log(currentHealth);
+        if (currentHealth == 0)
+            TriggerDeath();
+    }
+    #endregion
+
+    #region TriggerDeath
+    void TriggerDeath()
+    {
+        playerStateMachine = StateMachine.LockMovement;
+        SetLockTime(3);
+        animator.SetTrigger("Death");
+        Destroy(gameObject, animator.GetCurrentAnimatorClipInfo(0).Length + 0.1f);
     }
     #endregion
 }

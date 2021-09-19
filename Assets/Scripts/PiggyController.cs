@@ -32,7 +32,6 @@ public class PiggyController : EnemyController
             isRaging = true;
             animator.SetBool("IsRaging", true);
         }
-
         else
         {
             isRaging = false;

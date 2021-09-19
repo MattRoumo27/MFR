@@ -136,6 +136,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   groundCheck: {fileID: 737174019279745567}
+  maxHealth: 3
+  timeInvincible: 1
 --- !u!50 &860081973802395580
 Rigidbody2D:
   serializedVersion: 4

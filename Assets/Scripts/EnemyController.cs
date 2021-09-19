@@ -46,6 +46,16 @@ public class EnemyController : MonoBehaviour
     }
     #endregion
 
+    #region OnCollisionEnter2D
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        if (player != null)
+            player.ChangeHealth(-1);
+    }
+    #endregion
+
     #region CustomEnemyBehavior
     protected virtual void CustomEnemyBehavior()
     {
