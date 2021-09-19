@@ -9,9 +9,9 @@ public class EnemyController : MonoBehaviour
 
     Rigidbody2D rb;
     float timer;
-    int direction = -1;
+    protected int direction = -1;
 
-    Animator animator;
+    protected Animator animator;
 
     #region Start
     // Start is called before the first frame update
@@ -34,11 +34,27 @@ public class EnemyController : MonoBehaviour
             direction = -direction;
             timer = changeTime;
         }
+
+        CustomEnemyBehavior();
     }
     #endregion
 
     #region FixedUpdate
     void FixedUpdate()
+    {
+        Movement();
+    }
+    #endregion
+
+    #region CustomEnemyBehavior
+    protected virtual void CustomEnemyBehavior()
+    {
+
+    }
+    #endregion
+
+    #region Movement
+    protected virtual void Movement()
     {
         Vector2 position = rb.position;
         position.x = position.x + Time.deltaTime * speed * direction;

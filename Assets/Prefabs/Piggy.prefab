@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4533047687910237905}
   - component: {fileID: 6868378423221238257}
   - component: {fileID: 4754991751185399288}
+  - component: {fileID: 5713680968313928923}
   m_Layer: 8
   m_Name: Piggy
   m_TagString: Untagged
@@ -121,7 +122,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.005376205, y: -0.031844318}
+  m_Offset: {x: 0.005376205, y: -0.021505237}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -132,7 +133,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.22186983, y: 0.2181145}
+  m_Size: {x: 0.22186983, y: 0.23879266}
   m_EdgeRadius: 0
 --- !u!95 &6868378423221238257
 Animator:
@@ -160,10 +161,26 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 326866202498464914}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cfee40e6049914f4bae6b49b013d875e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
   changeTime: 3
+--- !u!114 &5713680968313928923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326866202498464914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848ab544d5857c14c97de156e0a2db05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  changeTime: 3
+  walkSpeed: 2
+  rageSpeed: 3
