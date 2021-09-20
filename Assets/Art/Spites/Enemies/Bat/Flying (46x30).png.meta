@@ -1,24 +1,30 @@
 fileFormatVersion: 2
-guid: f5cacef1cf4f89f40a43f057681f4b47
+guid: d2de0d5d65de6fe4c819bae5f4e4c117
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3426409048106610360
-    second: Hit (46x30)_0
+      213: -1409377701681601660
+    second: Flying (46x30)_0
   - first:
-      213: -7948757890858142505
-    second: Hit (46x30)_1
+      213: 927969364477127216
+    second: Flying (46x30)_1
   - first:
-      213: -6757096598120407350
-    second: Hit (46x30)_2
+      213: 7484338897127006386
+    second: Flying (46x30)_2
   - first:
-      213: -6437377115994939565
-    second: Hit (46x30)_3
+      213: -4384899741344659513
+    second: Flying (46x30)_3
   - first:
-      213: 778426919414220537
-    second: Hit (46x30)_4
+      213: -1720271735321155963
+    second: Flying (46x30)_4
+  - first:
+      213: 122462276192692789
+    second: Flying (46x30)_5
+  - first:
+      213: -717733085404383519
+    second: Flying (46x30)_6
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -38,6 +44,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -47,8 +54,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -69,9 +76,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -101,7 +112,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hit (46x30)_0
+      name: Flying (46x30)_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,14 +126,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 420dce4411ae0284b90d691aae19f165
-      internalID: -3426409048106610360
+      spriteID: fbbf83b051ef3d34bb0e481aebfe540b
+      internalID: -1409377701681601660
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (46x30)_1
+      name: Flying (46x30)_1
       rect:
         serializedVersion: 2
         x: 46
@@ -136,14 +147,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b7d61ca78c18d241a4c095fdbdc94d1
-      internalID: -7948757890858142505
+      spriteID: 1c828aff31ff35849a3efb401e18c21c
+      internalID: 927969364477127216
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (46x30)_2
+      name: Flying (46x30)_2
       rect:
         serializedVersion: 2
         x: 92
@@ -157,14 +168,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 139c38c4a157ac44bba41adee31730e7
-      internalID: -6757096598120407350
+      spriteID: 83dfbfa3c21af424cba669ac520e8477
+      internalID: 7484338897127006386
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (46x30)_3
+      name: Flying (46x30)_3
       rect:
         serializedVersion: 2
         x: 138
@@ -178,14 +189,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7fae536ecdf0d384597a66da6ae0bb18
-      internalID: -6437377115994939565
+      spriteID: df2b9f6e83c45da47a539cebd3331a99
+      internalID: -4384899741344659513
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hit (46x30)_4
+      name: Flying (46x30)_4
       rect:
         serializedVersion: 2
         x: 184
@@ -199,8 +210,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25186314ac61a1441850664d74281058
-      internalID: 778426919414220537
+      spriteID: 8409a6665e7eddb4286d34de4622d997
+      internalID: -1720271735321155963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Flying (46x30)_5
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 0
+        width: 46
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 607cc3825ac100d49a0383a797f4eb77
+      internalID: 122462276192692789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Flying (46x30)_6
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 0
+        width: 46
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28b241c647215f54eb3ba1732856d4f7
+      internalID: -717733085404383519
       vertices: []
       indices: 
       edges: []

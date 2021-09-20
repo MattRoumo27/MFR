@@ -11,8 +11,6 @@ public class PiggyController : EnemyController
     #region CustomEnemyBehavior
     protected override void CustomEnemyBehavior()
     {
-        Debug.DrawRay(transform.position, new Vector2(10, 0) * direction, Color.green);
-
         CheckIfPlayerIsInSight();
 
         if (isRaging)
