@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     float horizontal;
     public float speed = 3.0f;
-
     #endregion
 
     #region Jumping
@@ -27,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     bool buttonDownJump;
     bool isGrounded;
+    bool hasDoubleJump = true;
     const float groundedRadius = .1f;
     #endregion
 
@@ -162,9 +162,18 @@ public class PlayerController : MonoBehaviour
 
         if (buttonDownJump && isGrounded)
         {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(jumpHeight, ForceMode2D.Impulse);
             buttonDownJump = false;
             isGrounded = false;
+        } 
+        else if (buttonDownJump && hasDoubleJump)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.AddForce(jumpHeight, ForceMode2D.Impulse);
+            buttonDownJump = false;
+            hasDoubleJump = false;
+            animator.SetTrigger("IsDoubleJumping");
         }
     }
     #endregion
@@ -182,7 +191,11 @@ public class PlayerController : MonoBehaviour
             {
                 isGrounded = true;
                 if (!wasGrounded)
+                {
                     animator.SetBool("IsJumping", false);
+                    hasDoubleJump = true;
+                }
+
             }
         }
     }

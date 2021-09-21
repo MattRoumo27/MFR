@@ -3452,7 +3452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4451432551796237319, guid: 9b996465c9520b446976596e9dc33ea5, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: VirtualGuy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b996465c9520b446976596e9dc33ea5, type: 3}
