@@ -69,6 +69,7 @@ public class EnemyController : MonoBehaviour
                 {
                     playerPhysics.AddForce(player.jumpHeight, ForceMode2D.Impulse);
                     playerAnimator.SetBool("IsJumping", true);
+                    player.hasDoubleJump = true;
                 }
             }
             else

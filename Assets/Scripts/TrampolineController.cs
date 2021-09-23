@@ -33,6 +33,7 @@ public class TrampolineController : MonoBehaviour
                     playerPhysics.AddForce(jumpHeight, ForceMode2D.Impulse);
                     playerAnimation.SetBool("IsJumping", true);
                     animator.SetTrigger("IsJumping");
+                    player.hasDoubleJump = true;
                 }
             }
         }

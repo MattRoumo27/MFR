@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     bool buttonDownJump;
     bool isGrounded;
-    bool hasDoubleJump = true;
+    public bool hasDoubleJump = true;
     const float groundedRadius = .1f;
     #endregion
 
