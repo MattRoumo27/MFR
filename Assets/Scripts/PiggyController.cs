@@ -13,10 +13,13 @@ public class PiggyController : EnemyController
     {
         CheckIfPlayerIsInSight();
 
-        if (isRaging)
-            speed = rageSpeed;
-        else
-            speed = walkSpeed;
+        if (!isDefeated)
+        {
+            if (isRaging)
+                speed = rageSpeed;
+            else
+                speed = walkSpeed;
+        }
     }
     #endregion
 

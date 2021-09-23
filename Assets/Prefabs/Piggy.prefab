@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1173548358756222660}
   - component: {fileID: 4533047687910237905}
   - component: {fileID: 6868378423221238257}
-  - component: {fileID: 4754991751185399288}
   - component: {fileID: 5713680968313928923}
   m_Layer: 8
   m_Name: Piggy
@@ -154,20 +153,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4754991751185399288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326866202498464914}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfee40e6049914f4bae6b49b013d875e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  changeTime: 3
 --- !u!114 &5713680968313928923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,5 +167,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   changeTime: 3
+  maxHealth: 1
   walkSpeed: 2
   rageSpeed: 3

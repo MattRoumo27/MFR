@@ -7,6 +7,10 @@ public class EnemyController : MonoBehaviour
     public float speed;
     public float changeTime = 3.0f;
 
+    public int maxHealth = 1;
+    protected int currentHealth;
+    protected bool isDefeated = false;
+
     Rigidbody2D rb;
     float timer;
     protected int direction = -1;
@@ -18,8 +22,9 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        timer = changeTime;
         animator = GetComponent<Animator>();
+        timer = changeTime;
+        currentHealth = maxHealth;
     }
     #endregion
 
@@ -47,12 +52,31 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region OnCollisionEnter2D
-    void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
         if (player != null)
-            player.ChangeHealth(-1);
+        {
+            Transform playerGroundCheck = collision.gameObject.transform.GetChild(0).GetComponent<Transform>();
+            if (playerGroundCheck != null && playerGroundCheck.position.y > gameObject.transform.position.y)
+            {
+                this.ChangeHealth(-1);
+                Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
+                Animator playerAnimator = collision.gameObject.GetComponent<Animator>();
+
+                if (playerPhysics != null && playerAnimator != null)
+                {
+                    playerPhysics.AddForce(player.jumpHeight, ForceMode2D.Impulse);
+                    playerAnimator.SetBool("IsJumping", true);
+                }
+            }
+            else
+            {
+                player.ChangeHealth(-1);
+            }
+        }
+
     }
     #endregion
 
@@ -74,4 +98,22 @@ public class EnemyController : MonoBehaviour
         rb.MovePosition(position);
     }
     #endregion
+
+    protected virtual void ChangeHealth(int amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+
+        if (currentHealth == 0)
+            TriggerDeath();
+        else if (amount < 0)
+            animator.SetTrigger("Hit");
+    }
+
+    protected virtual void TriggerDeath()
+    {
+        speed = 0;
+        isDefeated = true;
+        animator.SetTrigger("Death");
+        Destroy(gameObject, 0.4f);
+    }
 }

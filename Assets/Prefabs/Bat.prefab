@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 700270961574584016}
   - component: {fileID: 3151068399002203270}
   - component: {fileID: 2797922039739655359}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,3 +167,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   changeTime: 5
+  maxHealth: 1
