@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class MainMenu : MonoBehaviour
+public class LevelLoader : MonoBehaviour
 {
     public GameObject loadingScreen;
     public Slider slider;
@@ -15,12 +15,7 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(LoadAsynchronously(sceneIndex));
     }
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
-
-    IEnumerator LoadAsynchronously(int sceneIndex)
+    IEnumerator LoadAsynchronously (int sceneIndex)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
