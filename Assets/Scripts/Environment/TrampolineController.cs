@@ -11,7 +11,7 @@ public class TrampolineController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
     #endregion
 
@@ -23,7 +23,7 @@ public class TrampolineController : MonoBehaviour
         if (player != null)
         {
             Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
-            Animator playerAnimation = collision.gameObject.GetComponent<Animator>();
+            Animator playerAnimation = collision.gameObject.GetComponentInChildren<Animator>();
             Transform playerGroundCheck = collision.gameObject.GetComponentInChildren<Transform>();
 
             if (playerGroundCheck != null && playerGroundCheck.position.y > gameObject.transform.position.y)
