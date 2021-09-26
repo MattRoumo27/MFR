@@ -181,7 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  jumpHeight: {x: 0, y: 7}
+  jumpHeight: {x: 0, y: 8}
+  doubleJumpHeight: {x: 0, y: 6}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -204,7 +205,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.25
   m_Material: {fileID: 6200000, guid: 7ac76868b3ec4484b8bebe2343aa83dd, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1

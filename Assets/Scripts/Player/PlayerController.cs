@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Jumping
-    public Vector2 jumpHeight = new Vector2(0, 5);
+    public Vector2 jumpHeight = new Vector2(0, 8);
+    public Vector2 doubleJumpHeight = new Vector2(0, 5);
     public LayerMask groundLayer;
     public Transform groundCheck;
     bool buttonDownJump;
@@ -170,7 +171,7 @@ public class PlayerController : MonoBehaviour
         else if (buttonDownJump && hasDoubleJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.AddForce(jumpHeight, ForceMode2D.Impulse);
+            rb.AddForce(doubleJumpHeight, ForceMode2D.Impulse);
             buttonDownJump = false;
             hasDoubleJump = false;
             animator.SetTrigger("IsDoubleJumping");
