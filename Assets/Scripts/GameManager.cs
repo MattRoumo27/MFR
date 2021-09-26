@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         instance.SetMouseCursorVisibility(false);
-        //
     }
 
     public void SetMouseCursorVisibility(bool visible)
