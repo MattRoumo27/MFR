@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PiggyController : EnemyController
+public class PiggyController : _BaseEnemyController
 {
     public int walkSpeed;
     public int rageSpeed;
