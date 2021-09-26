@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         currentHealth = maxHealth;
         playerStateMachine = StateMachine.LockMovement;
         animator.SetFloat("LookX", lookDirection.x);

@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         timer = changeTime;
         currentHealth = maxHealth;
     }
@@ -63,7 +63,7 @@ public class EnemyController : MonoBehaviour
             {
                 this.ChangeHealth(-1);
                 Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
-                Animator playerAnimator = collision.gameObject.GetComponent<Animator>();
+                Animator playerAnimator = collision.gameObject.GetComponentInChildren<Animator>();
 
                 if (playerPhysics != null && playerAnimator != null)
                 {
