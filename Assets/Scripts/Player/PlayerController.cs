@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // TEST
     #region StateMachine
     enum StateMachine
     {
