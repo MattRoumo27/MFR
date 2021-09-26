@@ -17,19 +17,16 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetButtonDown("Start"))
         {
             if (GameIsPaused)
-            {
                 Resume();
-            }
             else
-            {
                 Pause();
-            }
         }
     }
 
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
+        GameManager.instance.SetMouseCursorVisibility(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
@@ -37,6 +34,7 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
+        GameManager.instance.SetMouseCursorVisibility(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
