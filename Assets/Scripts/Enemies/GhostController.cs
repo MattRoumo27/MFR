@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GhostController : _BaseEnemyController
 {
-    protected override void CustomEnemyBehavior()
+    protected override void CustomEnemyMovementBehavior()
     {
-        base.CustomEnemyBehavior();
+        base.CustomEnemyMovementBehavior();
     }
 }

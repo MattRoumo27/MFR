@@ -93,8 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848ab544d5857c14c97de156e0a2db05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  changeTime: 3
+  regularSpeed: 2
   maxHealth: 1
   walkSpeed: 2
   rageSpeed: 3

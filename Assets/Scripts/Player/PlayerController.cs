@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region StateMachine
-    enum StateMachine
+    protected enum StateMachine
     {
         LockMovement, UnlockedMovement
     }

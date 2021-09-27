@@ -1,21 +1,39 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class _BaseEnemyController : MonoBehaviour
 {
-    public float speed;
-    public float changeTime = 3.0f;
+    #region EnemyStateMachine
+    protected enum EnemyStateMachine
+    {
+        Idle, Moving, Attacking
+    }
 
+    protected EnemyStateMachine stateMachine;
+    readonly protected EnemyStateMachine[] stateArray = new[] { EnemyStateMachine.Idle, EnemyStateMachine.Moving };
+    #endregion
+
+    public float regularSpeed;
+    protected float speed;
+
+    #region Health
     public int maxHealth = 1;
     protected int currentHealth;
     protected bool isDefeated = false;
+    #endregion
 
-    Rigidbody2D rb;
-    float timer;
+    #region Behavior and Direction
+    float changeBehaviorTimer;
     protected int direction = -1;
+    readonly protected int[] directionArray = new[] { -1, 1 };
+    #endregion
 
+    #region Components
     protected Animator animator;
+    Rigidbody2D rb;
+    #endregion
 
     #region Start
     // Start is called before the first frame update
@@ -23,8 +41,10 @@ public class _BaseEnemyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        timer = changeTime;
+        changeBehaviorTimer = new System.Random(Guid.NewGuid().GetHashCode()).Next(1, 4);
         currentHealth = maxHealth;
+        stateMachine = EnemyStateMachine.Idle;
+        speed = 0;
     }
     #endregion
 
@@ -32,29 +52,86 @@ public class _BaseEnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime;
-
-        if (timer < 0)
+        switch (stateMachine)
         {
-            direction = -direction;
-            timer = changeTime;
+            case EnemyStateMachine.Idle:
+                break;
+            case EnemyStateMachine.Moving:
+                CustomEnemyMovementBehavior();
+                break;
+            case EnemyStateMachine.Attacking:
+                break;
+            default:
+                break;
         }
 
-        CustomEnemyBehavior();
+        UpdateBehavior();
     }
     #endregion
 
     #region FixedUpdate
     void FixedUpdate()
     {
-        Movement();
+        switch (stateMachine)
+        {
+            case EnemyStateMachine.Idle:
+                break;
+            case EnemyStateMachine.Moving:
+                Movement();
+                break;
+            case EnemyStateMachine.Attacking:
+                break;
+            default:
+                break;
+        }
     }
+    #endregion
+
+
+    #region Behavior
+    #region UpdateBehavior
+    void UpdateBehavior()
+    {
+        changeBehaviorTimer -= Time.deltaTime;
+
+        if (changeBehaviorTimer < 0)
+        {
+            direction = directionArray[new System.Random(Guid.NewGuid().GetHashCode()).Next(directionArray.Length)];
+            animator.SetFloat("LookX", direction);
+            changeBehaviorTimer = new System.Random(Guid.NewGuid().GetHashCode()).Next(1, 4);
+            stateMachine = stateArray[new System.Random(Guid.NewGuid().GetHashCode()).Next(stateArray.Length)];
+
+            ChangeBehavior();
+        }
+    }
+    #endregion
+
+    #region ChangeBehavior
+    void ChangeBehavior()
+    {
+        switch (stateMachine)
+        {
+            case EnemyStateMachine.Idle:
+                speed = 0;
+                animator.SetFloat("Speed", 0);
+                break;
+            case EnemyStateMachine.Moving:
+                speed = regularSpeed;
+                break;
+            case EnemyStateMachine.Attacking:
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
     #endregion
 
     #region OnCollisionEnter2D
     protected void OnCollisionEnter2D(Collision2D collision)
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        LayerMask maskOfCollision = collision.gameObject.layer;
 
         if (player != null)
         {
@@ -77,12 +154,16 @@ public class _BaseEnemyController : MonoBehaviour
                 player.ChangeHealth(-1);
             }
         }
+        else if (LayerMask.LayerToName(maskOfCollision) == "Enemy")
+        {
+            direction = -direction;
+        }
 
     }
     #endregion
 
-    #region CustomEnemyBehavior
-    protected virtual void CustomEnemyBehavior()
+    #region CustomEnemyAttackBehavior
+    protected virtual void CustomEnemyMovementBehavior()
     {
 
     }
@@ -93,7 +174,6 @@ public class _BaseEnemyController : MonoBehaviour
     {
         Vector2 position = rb.position;
         position.x = position.x + Time.deltaTime * speed * direction;
-        animator.SetFloat("LookX", direction);
         animator.SetFloat("Speed", position.magnitude);
 
         rb.MovePosition(position);
