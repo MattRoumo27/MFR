@@ -57,6 +57,7 @@ public class _BaseEnemyController : MonoBehaviour
             case EnemyStateMachine.Idle:
                 break;
             case EnemyStateMachine.Moving:
+                DoNotRunIntoWalls();
                 CustomEnemyMovementBehavior();
                 break;
             case EnemyStateMachine.Attacking:
@@ -87,6 +88,40 @@ public class _BaseEnemyController : MonoBehaviour
     }
     #endregion
 
+    #region OnCollisionEnter2D
+    protected void OnCollisionEnter2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        LayerMask maskOfCollision = collision.gameObject.layer;
+
+        if (player != null)
+        {
+            Transform playerGroundCheck = collision.gameObject.transform.GetChild(0).GetComponent<Transform>();
+            if (playerGroundCheck != null && playerGroundCheck.position.y > gameObject.transform.position.y)
+            {
+                this.ChangeHealth(-1);
+                Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
+                Animator playerAnimator = collision.gameObject.GetComponentInChildren<Animator>();
+
+                if (playerPhysics != null && playerAnimator != null)
+                {
+                    playerPhysics.AddForce(player.jumpHeight, ForceMode2D.Impulse);
+                    playerAnimator.SetBool("IsJumping", true);
+                    player.hasDoubleJump = true;
+                }
+            }
+            else
+            {
+                player.ChangeHealth(-1);
+            }
+        }
+        else if (LayerMask.LayerToName(maskOfCollision) == "Enemy")
+        {
+            direction = -direction;
+        }
+
+    }
+    #endregion
 
     #region Behavior
     #region UpdateBehavior
@@ -127,41 +162,6 @@ public class _BaseEnemyController : MonoBehaviour
     #endregion
     #endregion
 
-    #region OnCollisionEnter2D
-    protected void OnCollisionEnter2D(Collision2D collision)
-    {
-        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-        LayerMask maskOfCollision = collision.gameObject.layer;
-
-        if (player != null)
-        {
-            Transform playerGroundCheck = collision.gameObject.transform.GetChild(0).GetComponent<Transform>();
-            if (playerGroundCheck != null && playerGroundCheck.position.y > gameObject.transform.position.y)
-            {
-                this.ChangeHealth(-1);
-                Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
-                Animator playerAnimator = collision.gameObject.GetComponentInChildren<Animator>();
-
-                if (playerPhysics != null && playerAnimator != null)
-                {
-                    playerPhysics.AddForce(player.jumpHeight, ForceMode2D.Impulse);
-                    playerAnimator.SetBool("IsJumping", true);
-                    player.hasDoubleJump = true;
-                }
-            }
-            else
-            {
-                player.ChangeHealth(-1);
-            }
-        }
-        else if (LayerMask.LayerToName(maskOfCollision) == "Enemy")
-        {
-            direction = -direction;
-        }
-
-    }
-    #endregion
-
     #region CustomEnemyAttackBehavior
     protected virtual void CustomEnemyMovementBehavior()
     {
@@ -177,6 +177,21 @@ public class _BaseEnemyController : MonoBehaviour
         animator.SetFloat("Speed", position.magnitude);
 
         rb.MovePosition(position);
+    }
+    #endregion
+
+    #region DoNotRunIntoWalls
+    void DoNotRunIntoWalls()
+    {
+        int rayMask = LayerMask.GetMask("Ground");
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(direction, 0), 1f, rayMask);
+        Debug.DrawRay(transform.position, new Vector2(direction, 0));
+
+        if (hit.collider != null)
+        {
+            direction = -direction;
+            animator.SetFloat("LookX", direction);
+        }
     }
     #endregion
 
