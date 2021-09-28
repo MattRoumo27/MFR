@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviour
             const float padding = 50;
             float spacingWidth = cardRect.rect.width + padding;
 
-            levelCard.transform.parent = levelsPlaceholder.transform;
+            levelCard.transform.SetParent(levelsPlaceholder.transform);
             levelCard.transform.position = levelCard.transform.position + new Vector3((levelNumber - 1) * spacingWidth, 0, 0);
 
             Button cardButton = levelCard.GetComponent<Button>();
