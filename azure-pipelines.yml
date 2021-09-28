@@ -6,7 +6,8 @@
 trigger:
 - master
 
-pool: MATT-PC
+pool: 
+  Unity Windows Agents
 
 steps:
 - script: echo Hello, world!
