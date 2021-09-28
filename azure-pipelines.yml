@@ -6,7 +6,7 @@
 trigger:
 - master
 
-pool: MyPool
+pool: MATT-PC
 
 steps:
 - script: echo Hello, world!
