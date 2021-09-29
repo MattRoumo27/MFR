@@ -7,13 +7,15 @@ trigger:
 - master
 
 pool: 
-  Unity Windows Agents
+  name: Unity Windows Agents
+  demands:
+    Unity_2021.1.21f1
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: UnityBuildTask@3
+  inputs:
+    buildTarget: 'Win64'
+    unityProjectPath: 'C:\Users\mattr\Dropbox\Personal Projects\Unity Engine\MFR'
+    outputPath: '$(Build.BinariesDirectory)'
+    outputFileName: 'MFR'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
