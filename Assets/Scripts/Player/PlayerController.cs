@@ -52,9 +52,17 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentHealth = maxHealth;
+
+        PlayerData savedPlayerData = SaveSystem.LoadPlayer();
+        if (savedPlayerData != null)
+        {
+            currentHealth = savedPlayerData.health;
+            transform.position = new Vector2(savedPlayerData.position[0], savedPlayerData.position[1]);
+        }
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        currentHealth = maxHealth;
         playerStateMachine = StateMachine.LockMovement;
         animator.SetFloat("LookX", lookDirection.x);
         SetLockTime(1);

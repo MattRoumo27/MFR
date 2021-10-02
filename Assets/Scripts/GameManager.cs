@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    #region Awake
     private void Awake()
     {
         if (instance == null)
@@ -18,12 +19,16 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
     }
+    #endregion
 
+    #region Start
     private void Start()
     {
         instance.SetMouseCursorVisibility(false);
     }
+    #endregion
 
+    #region SetMouseCursorVisibility
     public void SetMouseCursorVisibility(bool visible)
     {
         if (visible)
@@ -35,4 +40,5 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
+    #endregion SetMouseCursorVisiblity
 }

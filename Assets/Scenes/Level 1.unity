@@ -1744,6 +1744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 96431275}
+  player: {fileID: 4451432553006118641}
 --- !u!1 &659011112
 GameObject:
   m_ObjectHideFlags: 0
@@ -12013,6 +12014,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4451432551796237317, guid: 9b996465c9520b446976596e9dc33ea5, type: 3}
   m_PrefabInstance: {fileID: 4451432553006118639}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4451432553006118641 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3236428605286335268, guid: 9b996465c9520b446976596e9dc33ea5, type: 3}
+  m_PrefabInstance: {fileID: 4451432553006118639}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dccac7a1010b75048b7a1b0cef0cbdba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5717084891617330399
 PrefabInstance:
   m_ObjectHideFlags: 0
