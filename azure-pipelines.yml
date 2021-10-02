@@ -1,0 +1,28 @@
+# Starter pipeline
+
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool: 
+  name: Unity Windows Agents
+  demands:
+    Unity_2021.1.21f1
+
+steps:
+- task: UnityBuildTask@3
+  inputs:
+    buildTarget: 'Win64'
+    unityProjectPath: 'C:\Users\mattr\Dropbox\Personal Projects\Unity Engine\MFR'
+    outputPath: '$(Build.BinariesDirectory)\Build'
+    outputFileName: 'MFR'
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.BinariesDirectory)\Build'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
