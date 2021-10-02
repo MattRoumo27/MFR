@@ -105,7 +105,9 @@ public class _BaseEnemyController : MonoBehaviour
 
                 if (playerPhysics != null && playerAnimator != null)
                 {
-                    playerPhysics.AddForce(player.jumpHeight, ForceMode2D.Impulse);
+                    Vector2 jumpPadding = new Vector2(0, 2);
+                    playerPhysics.velocity = new Vector2(playerPhysics.velocity.x, 0);
+                    playerPhysics.AddForce(player.jumpHeight - jumpPadding, ForceMode2D.Impulse);
                     playerAnimator.SetBool("IsJumping", true);
                     player.hasDoubleJump = true;
                 }

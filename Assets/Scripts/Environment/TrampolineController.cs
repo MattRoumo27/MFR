@@ -30,6 +30,7 @@ public class TrampolineController : MonoBehaviour
             {
                 if (playerPhysics != null && playerAnimation != null)
                 {
+                    playerPhysics.velocity = new Vector2(playerPhysics.velocity.x, 0);
                     playerPhysics.AddForce(jumpHeight, ForceMode2D.Impulse);
                     playerAnimation.SetBool("IsJumping", true);
                     animator.SetTrigger("IsJumping");
