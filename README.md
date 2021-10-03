@@ -4,7 +4,7 @@
 
 ![alt text][logo]
 
-[logo]: https://dev.azure.com/mattromo27/_git/MFR?path=/ReadmeAssets/SampleScene.gif
+[logo]: https://github.com/MattRoumo27/MFR/ReadmeAssets/SampleScene.gif
 
 ## Tools Used
 
