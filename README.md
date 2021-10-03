@@ -4,7 +4,7 @@
 
 ![alt text][logo]
 
-[logo]: https://github.com/MattRoumo27/MFR/ReadmeAssets/SampleScene.gif
+[logo]: https://github.com/MattRoumo27/MFR/tree/master/ReadmeAssets
 
 ## Tools Used
 
