@@ -4,7 +4,7 @@
 
 ![alt text][logo]
 
-[logo]: demo/SampleScene.gif
+[logo]: Demo/SampleScene.gif
 
 ## Tools Used
 
