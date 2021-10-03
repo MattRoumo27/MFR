@@ -13,6 +13,7 @@ MFR is a basic 2D-platformer inspired by classic Nintendo games like Super Mario
 ## Tools and Assets Used
 
 * [Unity](https://unity.com/)
+* [C# Programming Language](https://docs.microsoft.com/en-us/dotnet/csharp/)
 * [Visual Studio 2019](https://visualstudio.microsoft.com/vs/)
 * [Pixel Adventure 1 Assets](https://assetstore.unity.com/packages/2d/characters/pixel-adventure-1-155360)
 * [Pixel Adventure 2 Assets](https://assetstore.unity.com/packages/2d/characters/pixel-adventure-2-155418)
