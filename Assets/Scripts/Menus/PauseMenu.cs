@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +8,13 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
 
     public GameObject pauseMenuUI;
-    public PlayerController player;
+
+    #region Start
+    private void Start()
+    {
+        GameManager.Instance.SetMouseCursorVisibility(false);
+    }
+    #endregion
 
     // Update is called once per frame
     void Update()
@@ -27,7 +31,7 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
-        GameManager.instance.SetMouseCursorVisibility(false);
+        GameManager.Instance.SetMouseCursorVisibility(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
@@ -35,7 +39,7 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
-        GameManager.instance.SetMouseCursorVisibility(true);
+        GameManager.Instance.SetMouseCursorVisibility(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
@@ -44,7 +48,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(MAIN_MENU_BUILD_INDEX);
-        SaveSystem.SavePlayer(player);
+        GameManager.Instance.SavePlayerInfo();
     }
 
     public void QuitGame()

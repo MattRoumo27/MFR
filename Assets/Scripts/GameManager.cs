@@ -1,30 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager
 {
-    public static GameManager instance;
+    private static GameManager _instance;
 
-    #region Awake
-    private void Awake()
+    #region Instance
+    public static GameManager Instance
     {
-        if (instance == null)
+        get
         {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Debug.Log("Instance already exists, destroying object!");
-            Destroy(this);
-        }
-    }
-    #endregion
+            if (_instance == null)
+                _instance = new GameManager();
 
-    #region Start
-    private void Start()
-    {
-        instance.SetMouseCursorVisibility(false);
+            return _instance;
+        }
     }
     #endregion
 
@@ -41,4 +30,16 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion SetMouseCursorVisiblity
+
+    #region SavePlayerInfo
+    public void SavePlayerInfo()
+    {
+        PlayerController player = Object.FindObjectOfType<PlayerController>();
+
+        if (player != null)
+        {
+            SaveSystem.SavePlayer(player);
+        }
+    }
+    #endregion
 }

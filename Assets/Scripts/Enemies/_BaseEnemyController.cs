@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class _BaseEnemyController : MonoBehaviour
@@ -8,11 +6,11 @@ public class _BaseEnemyController : MonoBehaviour
     #region EnemyStateMachine
     protected enum EnemyStateMachine
     {
-        Idle, Moving, Attacking
+        Idle, Moving, Attacking, Death
     }
 
     protected EnemyStateMachine stateMachine;
-    readonly protected EnemyStateMachine[] stateArray = new[] { EnemyStateMachine.Idle, EnemyStateMachine.Moving };
+    readonly protected EnemyStateMachine[] randomStateBehavior = new[] { EnemyStateMachine.Idle, EnemyStateMachine.Moving };
     #endregion
 
     public float regularSpeed;
@@ -55,18 +53,21 @@ public class _BaseEnemyController : MonoBehaviour
         switch (stateMachine)
         {
             case EnemyStateMachine.Idle:
+                UpdateBehavior();
                 break;
             case EnemyStateMachine.Moving:
+                UpdateBehavior();
                 DoNotRunIntoWalls();
                 CustomEnemyMovementBehavior();
                 break;
             case EnemyStateMachine.Attacking:
+                UpdateBehavior();
+                break;
+            case EnemyStateMachine.Death:
                 break;
             default:
                 break;
-        }
-
-        UpdateBehavior();
+        }   
     }
     #endregion
 
@@ -81,6 +82,8 @@ public class _BaseEnemyController : MonoBehaviour
                 Movement();
                 break;
             case EnemyStateMachine.Attacking:
+                break;
+            case EnemyStateMachine.Death:
                 break;
             default:
                 break;
@@ -136,7 +139,7 @@ public class _BaseEnemyController : MonoBehaviour
             direction = directionArray[new System.Random(Guid.NewGuid().GetHashCode()).Next(directionArray.Length)];
             animator.SetFloat("LookX", direction);
             changeBehaviorTimer = new System.Random(Guid.NewGuid().GetHashCode()).Next(1, 4);
-            stateMachine = stateArray[new System.Random(Guid.NewGuid().GetHashCode()).Next(stateArray.Length)];
+            stateMachine = randomStateBehavior[new System.Random(Guid.NewGuid().GetHashCode()).Next(randomStateBehavior.Length)];
 
             ChangeBehavior();
         }
@@ -202,7 +205,10 @@ public class _BaseEnemyController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
 
         if (currentHealth == 0)
+        {
             TriggerDeath();
+            stateMachine = EnemyStateMachine.Death;
+        }
         else if (amount < 0)
             animator.SetTrigger("Hit");
     }
@@ -210,6 +216,7 @@ public class _BaseEnemyController : MonoBehaviour
     protected virtual void TriggerDeath()
     {
         speed = 0;
+        rb.velocity = new Vector2(0, 0);
         isDefeated = true;
         animator.SetTrigger("Death");
         Destroy(gameObject, 0.4f);

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -28,7 +26,7 @@ public class PlayerController : MonoBehaviour
     bool buttonDownJump;
     bool isGrounded;
     public bool hasDoubleJump = true;
-    const float groundedRadius = .1f;
+    const float groundedRadius = .01f;
     #endregion
 
     #region Animation
