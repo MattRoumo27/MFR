@@ -29,7 +29,7 @@ public class GameManager
             if (_levelInfo == null)
             {
                 string sceneName = SceneManager.GetActiveScene().name;
-                _levelInfo = SaveSystem.LoadLevel(sceneName);
+                _levelInfo = SaveManager.LoadLevel(sceneName);
             }
 
             return _levelInfo;
@@ -101,7 +101,7 @@ public class GameManager
 
             if (levelData != null)
             {
-                SaveSystem.SaveLevel(levelData);
+                SaveManager.SaveLevel(levelData);
             }
         }
         else
