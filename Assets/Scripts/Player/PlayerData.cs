@@ -1,5 +1,6 @@
+using System;
 
-[System.Serializable]
+[Serializable]
 public class PlayerData
 {
     public int health;

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Character Movement
+    public Vector2 startingPosition;
     Rigidbody2D rb;
     float horizontal;
     public float speed = 3.0f;
@@ -52,11 +53,16 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        PlayerData savedPlayerData = SaveSystem.LoadPlayer();
-        if (savedPlayerData != null)
+        LevelData levelInfo = GameManager.Instance.LevelInfo;
+        if (levelInfo != null && levelInfo.hasPlayerReachedCheckpoint)
         {
-            currentHealth = savedPlayerData.health;
-            transform.position = new Vector2(savedPlayerData.position[0], savedPlayerData.position[1]);
+            float flagX = levelInfo.flagData.position[0];
+            float flagY = levelInfo.flagData.position[1];
+            transform.position = new Vector2(flagX, flagY);
+        }
+        else
+        {
+            transform.position = startingPosition;
         }
 
         rb = GetComponent<Rigidbody2D>();

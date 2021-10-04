@@ -3,12 +3,59 @@ using UnityEngine.SceneManagement;
 
 public class GameManager
 {
+    public const int NOT_LOADING_A_SCENE = -1;
+
+    #region Instance
     private static GameManager _instance;
 
-    const int NOT_LOADING_A_SCENE = -1;
-    private int _nextSceneIndex = NOT_LOADING_A_SCENE;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new GameManager();
+
+            return _instance;
+        }
+    }
+    #endregion
+
+    #region LevelInfo
+    private LevelData _levelInfo;
+    public LevelData LevelInfo
+    {
+        get
+        {
+            if (_levelInfo == null)
+            {
+                string sceneName = SceneManager.GetActiveScene().name;
+                _levelInfo = SaveSystem.LoadLevel(sceneName);
+            }
+
+            return _levelInfo;
+        }
+    }
+    #endregion
+
+    #region PlayerReachedCheckpoint
+    private bool _playerReachedCheckpoint = false;
+
+    public bool PlayerReachedCheckpoint { 
+        get 
+        { 
+            return _playerReachedCheckpoint; 
+        } 
+        set 
+        { 
+            if (value) 
+                _playerReachedCheckpoint =  value; 
+        } 
+    }
+    #endregion
 
     #region NextSceneIndex
+    private int _nextSceneIndex = NOT_LOADING_A_SCENE;
+
     public int NextSceneIndex
     {
         get { return _nextSceneIndex; }
@@ -22,19 +69,6 @@ public class GameManager
             {
                 Debug.LogError("NextSceneIndex was given an invalid value");
             }
-        }
-    }
-    #endregion
-
-    #region Instance
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = new GameManager();
-
-            return _instance;
         }
     }
     #endregion
@@ -53,19 +87,32 @@ public class GameManager
     }
     #endregion SetMouseCursorVisiblity
 
-    #region SavePlayerInfo
-    public void SavePlayerInfo()
+    #region SaveLevelInfo
+    public void SaveLevelInfo(bool isLevelCompleted)
     {
-        PlayerController player = Object.FindObjectOfType<PlayerController>();
+        // Gather information to prepare level for saving
+        CheckpointFlag flag = Object.FindObjectOfType<CheckpointFlag>();
+        bool checkpointReached = _playerReachedCheckpoint;
+        string sceneName = SceneManager.GetActiveScene().name;
 
-        if (player != null)
+        if (flag != null)
         {
-            SaveSystem.SavePlayer(player);
+            LevelData levelData = new LevelData(sceneName, checkpointReached, isLevelCompleted, flag);
+
+            if (levelData != null)
+            {
+                SaveSystem.SaveLevel(levelData);
+            }
         }
+        else
+        {
+            Debug.LogError("Failed to get references to player and flag objects in the scene");
+        }
+
     }
     #endregion
 
-    #region
+    #region HandleEndOfLevel
     public void HandleEndOfLevel()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -83,7 +130,11 @@ public class GameManager
             int nextLevelNumber = levelNumber + 1;
             int nextSceneIndex = SceneUtility.GetBuildIndexByScenePath("Scenes/Level " + nextLevelNumber);
             if (nextSceneIndex >= 0)
+            {
                 _nextSceneIndex = nextSceneIndex;   // Triggers LoadingMenu to start loading the next scene
+                ResetVariablesOnNewScene();         // Prepare for next level by resetting level specific variables
+                SaveLevelInfo(true);                // Save that the level is completed
+            }
             else
                 Debug.LogError("The next level does not exist. You must have finished them all. Congrats!");
         }
@@ -91,4 +142,11 @@ public class GameManager
     }
     #endregion
 
+    #region ResetVariablesOnNewScene
+    void ResetVariablesOnNewScene()
+    {
+        _playerReachedCheckpoint = false;
+        _levelInfo = null;
+    }
+    #endregion
 }

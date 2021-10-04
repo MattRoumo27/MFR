@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckpointFlag : MonoBehaviour
@@ -13,11 +11,13 @@ public class CheckpointFlag : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        PlayerController controller = collision.GetComponent<PlayerController>();
+        PlayerController player = collision.GetComponent<PlayerController>();
 
-        if (controller != null)
+        if (player != null)
         {
             animator.SetTrigger("PlayerHitFlag");
+            GameManager.Instance.PlayerReachedCheckpoint = true;
+            GameManager.Instance.SaveLevelInfo(false);
         }
     }
 }

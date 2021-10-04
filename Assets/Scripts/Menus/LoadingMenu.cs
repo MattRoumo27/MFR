@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,7 +19,7 @@ public class LoadingMenu : MonoBehaviour
     {
         int nextScene = GameManager.Instance.NextSceneIndex;
 
-        if (nextScene != -1)
+        if (nextScene != GameManager.NOT_LOADING_A_SCENE)
         {
             StartCoroutine(LoadAsynchronously(nextScene));
         }
@@ -47,13 +46,13 @@ public class LoadingMenu : MonoBehaviour
                 }
                 else
                 {
-                    GameManager.Instance.NextSceneIndex = -1;
+                    GameManager.Instance.NextSceneIndex = GameManager.NOT_LOADING_A_SCENE;
                 }
 
                 yield return null;
             }
 
-            GameManager.Instance.NextSceneIndex = -1;
+            GameManager.Instance.NextSceneIndex = GameManager.NOT_LOADING_A_SCENE;
         }
         else
         {

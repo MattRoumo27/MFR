@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dccac7a1010b75048b7a1b0cef0cbdba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingPosition: {x: -10.3, y: -1.09, z: 0}
   speed: 4
   jumpHeight: {x: 0, y: 8}
   doubleJumpHeight: {x: 0, y: 6}
