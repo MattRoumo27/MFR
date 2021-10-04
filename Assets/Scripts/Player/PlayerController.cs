@@ -241,4 +241,13 @@ public class PlayerController : MonoBehaviour
         Destroy(gameObject, animator.GetCurrentAnimatorClipInfo(0).Length + 0.1f);
     }
     #endregion
+
+    public void MakePlayerJump()
+    {
+        Vector2 jumpPadding = new Vector2(0, 2);
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.AddForce(jumpHeight - jumpPadding, ForceMode2D.Impulse);
+        animator.SetBool("IsJumping", true);
+        hasDoubleJump = true;
+    }
 }

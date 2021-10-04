@@ -200,6 +200,7 @@ public class _BaseEnemyController : MonoBehaviour
     }
     #endregion
 
+    #region ChangeHealth
     protected virtual void ChangeHealth(int amount)
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
@@ -212,7 +213,9 @@ public class _BaseEnemyController : MonoBehaviour
         else if (amount < 0)
             animator.SetTrigger("Hit");
     }
+    #endregion
 
+    #region TriggerDeath
     protected virtual void TriggerDeath()
     {
         speed = 0;
@@ -221,4 +224,5 @@ public class _BaseEnemyController : MonoBehaviour
         animator.SetTrigger("Death");
         Destroy(gameObject, 0.4f);
     }
+    #endregion
 }
