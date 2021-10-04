@@ -12151,6 +12151,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bat
       objectReference: {fileID: 0}
+    - target: {fileID: 5717084891617330401, guid: c73eeab79ba8b4841a91e820828c2ef9, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c73eeab79ba8b4841a91e820828c2ef9, type: 3}
 --- !u!4 &5717084891617330400 stripped
@@ -12171,7 +12175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4390778323309800178, guid: a6944c2395195444482afb772c3e7365, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40.18
+      value: 41.1
       objectReference: {fileID: 0}
     - target: {fileID: 4390778323309800178, guid: a6944c2395195444482afb772c3e7365, type: 3}
       propertyPath: m_LocalPosition.y

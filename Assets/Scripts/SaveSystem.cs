@@ -10,7 +10,7 @@ public static class SaveSystem
     public static void SaveLevel(LevelData levelData)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + $"/{levelData.sceneName}";
+        string path = Application.persistentDataPath + $"/{levelData.sceneName}.bin";
         using (FileStream stream = new FileStream(path, FileMode.Create))
         {
             formatter.Serialize(stream, levelData);
@@ -22,7 +22,7 @@ public static class SaveSystem
     #region LoadLevel
     public static LevelData LoadLevel(string sceneName)
     {
-        string path = Application.persistentDataPath + $"/{sceneName}";
+        string path = Application.persistentDataPath + $"/{sceneName}.bin";
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();

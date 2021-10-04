@@ -53,21 +53,10 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        LevelData levelInfo = GameManager.Instance.LevelInfo;
-        if (levelInfo != null && levelInfo.hasPlayerReachedCheckpoint)
-        {
-            float flagX = levelInfo.flagData.position[0];
-            float flagY = levelInfo.flagData.position[1];
-            transform.position = new Vector2(flagX, flagY);
-        }
-        else
-        {
-            transform.position = startingPosition;
-        }
+        LoadRelevantLevelInformation();
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        playerStateMachine = StateMachine.LockMovement;
         animator.SetFloat("LookX", lookDirection.x);
         SetLockTime(1);
     }
@@ -105,9 +94,27 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region LoadRelevantLevelInformation
+    void LoadRelevantLevelInformation()
+    {
+        LevelData levelInfo = GameManager.Instance.LevelInfo;
+        if (levelInfo != null && levelInfo.hasPlayerReachedCheckpoint)
+        {
+            float flagX = levelInfo.flagData.position[0];
+            float flagY = levelInfo.flagData.position[1];
+            transform.position = new Vector2(flagX, flagY);
+        }
+        else
+        {
+            transform.position = startingPosition;
+        }
+    }
+    #endregion
+
     #region SetLockTime
     public void SetLockTime(float seconds)
     {
+        playerStateMachine = StateMachine.LockMovement;
         lockMovementTimer = seconds;
     }
     #endregion
