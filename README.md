@@ -1,4 +1,6 @@
-# MFR
+<img src="./Demo/MFR-Logo.png" alt="logo" width="200" height="200"/>
+
+[logo]: ./Demo/MFR-Logo.png
 
 ## Overview
 
@@ -6,9 +8,9 @@ MFR is a basic 2D platformer inspired by classic Nintendo games like Super Mario
 
 ### Early Sample Scene
 
-![alt text][logo]
+![alt text][demo]
 
-[logo]: Demo/SampleScene.gif
+[demo]: ./Demo/SampleScene.gif
 
 ## Tools and Assets Used
 
