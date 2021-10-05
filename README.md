@@ -1,4 +1,8 @@
-<img src="./Demo/MFR-Logo.png" alt="logo" width="100" height="100"/>
+<div align="center">
+    <h1>MFR</h1>
+    <h4>A Single Developer Made Game</h4>
+    <img src="./Demo/MFR-Logo.png" alt="logo"/>
+</div>
 
 [logo]: ./Demo/MFR-Logo.png
 
