@@ -4,8 +4,6 @@
     <img src="./Demo/MFR-Logo.png" alt="logo"/>
 </div>
 
-[logo]: ./Demo/MFR-Logo.png
-
 ## Overview
 
 MFR is a basic 2D platformer inspired by classic Nintendo games like Super Mario Bros. and the Donkey Kong Country games. The game was made from scratch with the Unity 2D game engine other than the artwork, which was created by [Pixel Frog](https://assetstore.unity.com/publishers/44925), and all the artwork used in this project is uploaded on the [Unity Asset Store](https://assetstore.unity.com/) on their page.
