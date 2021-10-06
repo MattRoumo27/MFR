@@ -29,16 +29,6 @@ public class LevelCollectionData
     }
     #endregion
 
-    #region PrintLevels
-    public void PrintLevels()
-    {
-        foreach (KeyValuePair<string, LevelData> entry in levels)
-        {
-            Debug.Log(entry.Key + " exists in the dictionary");
-        }
-    }
-    #endregion
-
     #region GetLevel
     public LevelData GetLevel(string levelName)
     {
@@ -51,6 +41,16 @@ public class LevelCollectionData
         {
             Debug.LogWarning("The level name was not in the dictionary");
             return null;
+        }
+    }
+    #endregion
+
+    #region PrintLevels
+    public void PrintLevels()
+    {
+        foreach (KeyValuePair<string, LevelData> entry in levels)
+        {
+            Debug.Log(entry.Key + " exists in the dictionary");
         }
     }
     #endregion

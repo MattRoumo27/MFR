@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
     }
     #endregion
 
-    // Update is called once per frame
+    #region Update
     void Update()
     {
         if (Input.GetButtonDown("Start"))
@@ -27,7 +27,9 @@ public class PauseMenu : MonoBehaviour
                 Pause();
         }
     }
+    #endregion
 
+    #region Resume
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
@@ -35,7 +37,9 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
+    #endregion
 
+    #region Pause
     void Pause()
     {
         pauseMenuUI.SetActive(true);
@@ -43,16 +47,21 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
+    #endregion
 
+    #region LoadMenu
     public void LoadMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(MAIN_MENU_BUILD_INDEX);
     }
+    #endregion
 
+    #region QuitGame
     public void QuitGame()
     {
         Debug.Log("Quitting Game...");
         Application.Quit();
     }
+    #endregion
 }
