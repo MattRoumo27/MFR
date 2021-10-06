@@ -53,6 +53,7 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu()
     {
         Time.timeScale = 1f;
+        GameManager.Instance.ResetVariablesOnNewScene();
         SceneManager.LoadScene(MAIN_MENU_BUILD_INDEX);
     }
     #endregion

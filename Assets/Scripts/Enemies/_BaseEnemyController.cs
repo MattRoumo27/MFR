@@ -15,6 +15,7 @@ public class _BaseEnemyController : MonoBehaviour
 
     public float regularSpeed;
     protected float speed;
+    public float playerKnockback = 4.5f;
 
     #region Health
     public int maxHealth = 1;
@@ -53,21 +54,20 @@ public class _BaseEnemyController : MonoBehaviour
         switch (stateMachine)
         {
             case EnemyStateMachine.Idle:
-                UpdateBehavior();
                 break;
             case EnemyStateMachine.Moving:
-                UpdateBehavior();
                 DoNotRunIntoWalls();
                 CustomEnemyMovementBehavior();
                 break;
             case EnemyStateMachine.Attacking:
-                UpdateBehavior();
                 break;
             case EnemyStateMachine.Death:
                 break;
             default:
                 break;
-        }   
+        }
+
+        UpdateBehavior();
     }
     #endregion
 
@@ -91,21 +91,21 @@ public class _BaseEnemyController : MonoBehaviour
     }
     #endregion
 
-    #region OnCollisionEnter2D
-    protected void OnCollisionEnter2D(Collision2D collision)
+    #region OnCollisionStay2D
+    protected void OnCollisionStay2D(Collision2D collision)
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-        LayerMask maskOfCollision = collision.gameObject.layer;
 
         if (player != null)
         {
             Transform playerGroundCheck = collision.gameObject.transform.GetChild(0).GetComponent<Transform>();
-            if (playerGroundCheck != null && playerGroundCheck.position.y > gameObject.transform.position.y)
+            Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
+
+            if (playerGroundCheck != null && playerPhysics != null && playerGroundCheck.position.y > gameObject.transform.position.y)
             {
                 this.ChangeHealth(-1);
-                Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
-                Animator playerAnimator = collision.gameObject.GetComponentInChildren<Animator>();
 
+                Animator playerAnimator = collision.gameObject.GetComponentInChildren<Animator>();
                 if (playerPhysics != null && playerAnimator != null)
                 {
                     Vector2 jumpPadding = new Vector2(0, 2);
@@ -113,18 +113,31 @@ public class _BaseEnemyController : MonoBehaviour
                     playerPhysics.AddForce(player.jumpHeight - jumpPadding, ForceMode2D.Impulse);
                     playerAnimator.SetBool("IsJumping", true);
                     player.hasDoubleJump = true;
+                    rb.velocity = Vector2.zero;
                 }
             }
             else
             {
                 player.ChangeHealth(-1);
+                if (player.health != 0)
+                    player.ApplyKnockback(playerKnockback);
             }
         }
-        else if (LayerMask.LayerToName(maskOfCollision) == "Enemy")
+    }
+    #endregion
+
+    #region OnCollisionEnter2D
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Rigidbody2D enemyRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+        LayerMask maskOfCollision = collision.gameObject.layer;
+
+        if (LayerMask.LayerToName(maskOfCollision) == "Enemy" && enemyRigidbody != null)
         {
             direction = -direction;
+            animator.SetFloat("LookX", direction);
+            enemyRigidbody.velocity = Vector2.zero;
         }
-
     }
     #endregion
 
@@ -153,6 +166,7 @@ public class _BaseEnemyController : MonoBehaviour
         {
             case EnemyStateMachine.Idle:
                 speed = 0;
+                rb.velocity = Vector2.zero;
                 animator.SetFloat("Speed", 0);
                 break;
             case EnemyStateMachine.Moving:
@@ -177,11 +191,13 @@ public class _BaseEnemyController : MonoBehaviour
     #region Movement
     protected virtual void Movement()
     {
-        Vector2 position = rb.position;
-        position.x = position.x + Time.deltaTime * speed * direction;
-        animator.SetFloat("Speed", position.magnitude);
+        //        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        //Vector2 position = rb.position;
+        //position.x = position.x + Time.deltaTime * speed * direction;
+        rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+        animator.SetFloat("Speed", rb.position.magnitude);
 
-        rb.MovePosition(position);
+        //rb.MovePosition(position);
     }
     #endregion
 
@@ -219,7 +235,7 @@ public class _BaseEnemyController : MonoBehaviour
     protected virtual void TriggerDeath()
     {
         speed = 0;
-        rb.velocity = new Vector2(0, 0);
+        rb.velocity = Vector2.zero;
         isDefeated = true;
         animator.SetTrigger("Death");
         Destroy(gameObject, 0.4f);

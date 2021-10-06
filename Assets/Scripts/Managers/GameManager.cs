@@ -143,7 +143,7 @@ public class GameManager
     #endregion
 
     #region ResetVariablesOnNewScene
-    void ResetVariablesOnNewScene()
+    public void ResetVariablesOnNewScene()
     {
         _playerReachedCheckpoint = false;
         _levelInfo = null;

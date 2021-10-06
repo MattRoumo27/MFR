@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     #region Animation
     Animator animator;
-    Vector2 lookDirection = new Vector2(1, 0);
+    public Vector2 lookDirection = new Vector2(1, 0);
     #endregion
 
     #region Health
@@ -233,6 +234,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Change Health");
 
             animator.SetTrigger("Hit");
+            AnimationClip clip = animator.runtimeAnimatorController.animationClips.First(ac => ac.name == "Hit Right" || ac.name == "Hit Left");
+            if (clip != null)
+                SetLockTime(clip.length);
+            else
+                Debug.LogError("Hit Right or Hit Left was not found in the animation clips");
+
 
             isInvincible = true;
             invincibleTimer = timeInvincible;
@@ -248,13 +255,14 @@ public class PlayerController : MonoBehaviour
     #region TriggerDeath
     void TriggerDeath()
     {
-        playerStateMachine = StateMachine.LockMovement;
         SetLockTime(3);
+        rb.velocity = Vector2.zero;
         animator.SetTrigger("Death");
         Destroy(gameObject, animator.GetCurrentAnimatorClipInfo(0).Length + 0.1f);
     }
     #endregion
 
+    #region MakePlayerJump
     public void MakePlayerJump()
     {
         Vector2 jumpPadding = new Vector2(0, 2);
@@ -263,4 +271,12 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsJumping", true);
         hasDoubleJump = true;
     }
+    #endregion
+
+    #region ApplyKnockback
+    public void ApplyKnockback(float amount)
+    {
+        rb.velocity = new Vector2(-lookDirection.x, 1) * amount;
+    }
+    #endregion
 }

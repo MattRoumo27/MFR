@@ -15,7 +15,7 @@ public class EndFlag : MonoBehaviour
     }
     #endregion
 
-    #region
+    #region OnCollisionEnter2D
     void OnCollisionEnter2D(Collision2D collision)
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
