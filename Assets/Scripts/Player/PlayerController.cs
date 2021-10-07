@@ -274,9 +274,18 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ApplyKnockback
-    public void ApplyKnockback(float amount)
+    public void ApplyKnockback(GameObject objectApplyingKnockback, float amount)
     {
-        rb.velocity = new Vector2(-lookDirection.x, 1) * amount;
+        if (gameObject.transform.position.x < objectApplyingKnockback.transform.position.x)
+        {
+            Vector2 leftKnockback = new Vector2(-amount, amount);
+            rb.velocity = leftKnockback;
+        } 
+        else
+        {
+            Vector2 rightKnockback = new Vector2(amount, amount);
+            rb.velocity = rightKnockback;
+        }
     }
     #endregion
 }

@@ -13,9 +13,11 @@ public class _BaseEnemyController : MonoBehaviour
     readonly protected EnemyStateMachine[] randomStateBehavior = new[] { EnemyStateMachine.Idle, EnemyStateMachine.Moving };
     #endregion
 
+    #region Speed and Knockback
     public float regularSpeed;
     protected float speed;
     public float playerKnockback = 4.5f;
+    #endregion
 
     #region Health
     public int maxHealth = 1;
@@ -46,6 +48,8 @@ public class _BaseEnemyController : MonoBehaviour
         speed = 0;
     }
     #endregion
+
+    #region Updates
 
     #region Update
     // Update is called once per frame
@@ -91,54 +95,6 @@ public class _BaseEnemyController : MonoBehaviour
     }
     #endregion
 
-    #region OnCollisionStay2D
-    protected void OnCollisionStay2D(Collision2D collision)
-    {
-        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-
-        if (player != null)
-        {
-            Transform playerGroundCheck = collision.gameObject.transform.GetChild(0).GetComponent<Transform>();
-            Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
-
-            if (playerGroundCheck != null && playerPhysics != null && playerGroundCheck.position.y > gameObject.transform.position.y)
-            {
-                this.ChangeHealth(-1);
-
-                Animator playerAnimator = collision.gameObject.GetComponentInChildren<Animator>();
-                if (playerPhysics != null && playerAnimator != null)
-                {
-                    Vector2 jumpPadding = new Vector2(0, 2);
-                    playerPhysics.velocity = new Vector2(playerPhysics.velocity.x, 0);
-                    playerPhysics.AddForce(player.jumpHeight - jumpPadding, ForceMode2D.Impulse);
-                    playerAnimator.SetBool("IsJumping", true);
-                    player.hasDoubleJump = true;
-                    rb.velocity = Vector2.zero;
-                }
-            }
-            else
-            {
-                player.ChangeHealth(-1);
-                if (player.health != 0)
-                    player.ApplyKnockback(playerKnockback);
-            }
-        }
-    }
-    #endregion
-
-    #region OnCollisionEnter2D
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Rigidbody2D enemyRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-        LayerMask maskOfCollision = collision.gameObject.layer;
-
-        if (LayerMask.LayerToName(maskOfCollision) == "Enemy" && enemyRigidbody != null)
-        {
-            direction = -direction;
-            animator.SetFloat("LookX", direction);
-            enemyRigidbody.velocity = Vector2.zero;
-        }
-    }
     #endregion
 
     #region Behavior
@@ -179,6 +135,78 @@ public class _BaseEnemyController : MonoBehaviour
         }
     }
     #endregion
+    #endregion
+
+    #region Collisions
+
+    #region OnCollisionStay2D
+    protected void OnCollisionStay2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        if (player != null)
+        {
+            Transform playerGroundCheck = collision.gameObject.transform.GetChild(0).GetComponent<Transform>();
+            Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
+
+            bool isPlayerNotAboveMe = playerGroundCheck.position.y <= gameObject.transform.position.y;
+
+            if (playerGroundCheck != null && playerPhysics != null && isPlayerNotAboveMe)
+            {
+                player.ChangeHealth(-1);
+                if (player.health != 0)
+                    player.ApplyKnockback(gameObject, playerKnockback);
+            }
+        }
+    }
+    #endregion
+
+    #region OnCollisionEnter2D
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        Rigidbody2D rigidBody = collision.gameObject.GetComponent<Rigidbody2D>();
+        LayerMask maskOfCollision = collision.gameObject.layer;
+
+        if (player != null)
+        {
+            Transform playerGroundCheck = collision.gameObject.transform.GetChild(0).GetComponent<Transform>();
+            Rigidbody2D playerPhysics = collision.gameObject.GetComponent<Rigidbody2D>();
+
+            bool isPlayerAboveMe = playerGroundCheck.position.y > gameObject.transform.position.y;
+
+            if (playerGroundCheck != null && playerPhysics != null && isPlayerAboveMe)
+            {
+                this.ChangeHealth(-1);
+
+                Animator playerAnimator = collision.gameObject.GetComponentInChildren<Animator>();
+                if (playerPhysics != null && playerAnimator != null)
+                {
+                    MakePlayerJumpOffMe(player, playerPhysics, playerAnimator);
+                    rb.velocity = Vector2.zero;
+                }
+            }
+        }
+        else if (LayerMask.LayerToName(maskOfCollision) == "Enemy" && rigidBody != null)
+        {
+            direction = -direction;
+            animator.SetFloat("LookX", direction);
+            rigidBody.velocity = Vector2.zero;
+        }
+    }
+    #endregion
+
+    #region MakePlayerJumpOffMe
+    void MakePlayerJumpOffMe(PlayerController player, Rigidbody2D playerPhysics, Animator playerAnimator)
+    {
+        Vector2 jumpPadding = new Vector2(0, 2);
+        playerPhysics.velocity = new Vector2(playerPhysics.velocity.x, 0);
+        playerPhysics.AddForce(player.jumpHeight - jumpPadding, ForceMode2D.Impulse);
+        playerAnimator.SetBool("IsJumping", true);
+        player.hasDoubleJump = true;
+    }
+    #endregion
+
     #endregion
 
     #region CustomEnemyAttackBehavior

@@ -136,7 +136,7 @@ public class GameManager
                 SaveLevelInfo(true);                // Save that the level is completed
             }
             else
-                Debug.LogError("The next level does not exist. You must have finished them all. Congrats!");
+                Debug.LogWarning("The next level does not exist. You must have finished them all. Congrats!");
         }
 
     }
