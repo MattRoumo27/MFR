@@ -20,6 +20,10 @@ public class GameManager
     }
     #endregion
 
+    #region PlayerInfo
+    public bool hasPlayerDied = false;
+    #endregion
+
     #region LevelInfo
     private LevelData _levelInfo;
     public LevelData LevelInfo
@@ -147,6 +151,7 @@ public class GameManager
     {
         _playerReachedCheckpoint = false;
         _levelInfo = null;
+        hasPlayerDied = false;
     }
     #endregion
 }

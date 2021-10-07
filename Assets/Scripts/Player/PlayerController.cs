@@ -259,6 +259,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
         animator.SetTrigger("Death");
         Destroy(gameObject, animator.GetCurrentAnimatorClipInfo(0).Length + 0.1f);
+        GameManager.Instance.hasPlayerDied = true;
     }
     #endregion
 
