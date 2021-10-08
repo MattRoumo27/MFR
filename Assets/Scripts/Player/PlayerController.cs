@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Linq;
 
 public class PlayerController : MonoBehaviour
@@ -258,8 +259,27 @@ public class PlayerController : MonoBehaviour
         SetLockTime(3);
         rb.velocity = Vector2.zero;
         animator.SetTrigger("Death");
-        Destroy(gameObject, animator.GetCurrentAnimatorClipInfo(0).Length + 0.1f);
+        StartCoroutine(ShowGameOverAfterSomeTime());
+    }
+    #endregion
+
+    #region ShowGameOverAfter
+    IEnumerator ShowGameOverAfterSomeTime()
+    {
+        AnimatorClipInfo[] clip = animator.GetCurrentAnimatorClipInfo(0);
+        if (clip != null)
+        {
+            float clipLength = clip.Length;
+            yield return new WaitForSeconds(clipLength + 0.1f);
+        }
+        else
+        {
+            Debug.LogError("Clip was was not found");
+        }
+
         GameManager.Instance.hasPlayerDied = true;
+        Destroy(gameObject);
+        yield return null;
     }
     #endregion
 

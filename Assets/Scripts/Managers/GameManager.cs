@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager
 {
     public const int NOT_LOADING_A_SCENE = -1;
+    public const int MAIN_MENU_BUILD_INDEX = 0;
 
     #region Instance
     private static GameManager _instance;
@@ -22,6 +23,10 @@ public class GameManager
 
     #region PlayerInfo
     public bool hasPlayerDied = false;
+    #endregion
+
+    #region CanPauseBeUsed
+    public bool canPauseBeUsed = true;
     #endregion
 
     #region LevelInfo
@@ -68,6 +73,10 @@ public class GameManager
             if (value == NOT_LOADING_A_SCENE)
             {
                 _nextSceneIndex = NOT_LOADING_A_SCENE;
+            }
+            else if (value == MAIN_MENU_BUILD_INDEX)
+            {
+                _nextSceneIndex = MAIN_MENU_BUILD_INDEX;
             }
             else
             {
@@ -146,12 +155,34 @@ public class GameManager
     }
     #endregion
 
+    #region HandleLevelRestart
+    public void HandleLevelRestart()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        string sceneName = scene.name;
+        int levelNumber;
+        string levelNumberAsString = sceneName[sceneName.Length - 1].ToString();
+        bool result = int.TryParse(levelNumberAsString, out levelNumber);
+
+        if (!result)
+        {
+            Debug.Log("Could not parse the level number from the scene name");
+        }
+        else
+        {
+            _nextSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            ResetVariablesOnNewScene();
+        }
+    }
+    #endregion
+
     #region ResetVariablesOnNewScene
     public void ResetVariablesOnNewScene()
     {
         _playerReachedCheckpoint = false;
         _levelInfo = null;
         hasPlayerDied = false;
+        canPauseBeUsed = true;
     }
     #endregion
 }

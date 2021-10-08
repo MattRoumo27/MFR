@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    const int MAIN_MENU_BUILD_INDEX = 0;
-
     public static bool GameIsPaused = false;
 
     public GameObject pauseMenuUI;
@@ -19,7 +17,7 @@ public class PauseMenu : MonoBehaviour
     #region Update
     void Update()
     {
-        if (Input.GetButtonDown("Start"))
+        if (Input.GetButtonDown("Start") && GameManager.Instance.canPauseBeUsed)
         {
             if (GameIsPaused)
                 Resume();
@@ -53,8 +51,8 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu()
     {
         Time.timeScale = 1f;
+        GameManager.Instance.NextSceneIndex = GameManager.MAIN_MENU_BUILD_INDEX;
         GameManager.Instance.ResetVariablesOnNewScene();
-        SceneManager.LoadScene(MAIN_MENU_BUILD_INDEX);
     }
     #endregion
 
