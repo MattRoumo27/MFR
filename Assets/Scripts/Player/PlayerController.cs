@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour
     StateMachine playerStateMachine;
     #endregion
 
+    #region Audio
+    AudioSource audioSource;
+    public AudioClip footsteps;
+    #endregion
+
     #region Character Movement
     public Vector2 startingPosition;
     Rigidbody2D rb;
@@ -54,11 +59,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-
         LoadRelevantLevelInformation();
 
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponentInChildren<Animator>();
+
         animator.SetFloat("LookX", lookDirection.x);
         SetLockTime(1);
     }
@@ -77,6 +83,7 @@ public class PlayerController : MonoBehaviour
                 GetInputs();
                 SetLookDirection();
                 CheckInvincibility();
+                PlayFootStepSounds();
                 break;
         }
     }
@@ -172,9 +179,27 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
+    #region PlayFootStepSounds
+    void PlayFootStepSounds()
+    {
+        if (isGrounded && (horizontal != 0))
+        {
+            audioSource.clip = footsteps;
+            if (!audioSource.isPlaying)
+                audioSource.Play();
+        }
+        else
+        {
+            audioSource.Pause();
+        }
+    }
+    #endregion
+
     #endregion
 
     #region FixedUpdate Helpers
+
     #region PhysicsMovement
     void PhysicsMovement()
     {
@@ -222,6 +247,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
     #endregion
 
     #region ChangeHealth

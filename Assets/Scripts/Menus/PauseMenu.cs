@@ -6,11 +6,14 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
 
     public GameObject pauseMenuUI;
+    public AudioClip buttonSound;
+    AudioSource audioSource;
 
     #region Start
     private void Start()
     {
         GameManager.Instance.SetMouseCursorVisibility(false);
+        audioSource = GetComponent<AudioSource>();
     }
     #endregion
 
@@ -55,6 +58,11 @@ public class PauseMenu : MonoBehaviour
         GameManager.Instance.ResetVariablesOnNewScene();
     }
     #endregion
+
+    public void PlayButtonClickSound()
+    {
+        audioSource.PlayOneShot(buttonSound);
+    }
 
     #region QuitGame
     public void QuitGame()

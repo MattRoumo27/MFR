@@ -5,12 +5,14 @@ using UnityEngine;
 public class EndFlag : MonoBehaviour
 {
     Animator _animator;
+    AudioSource _audioSource;
     bool _hasBeenPressed;
 
     #region Start
     private void Start()
     {
         _animator = GetComponentInChildren<Animator>();
+        _audioSource = GetComponent<AudioSource>();
         _hasBeenPressed = false;
     }
     #endregion
@@ -30,6 +32,7 @@ public class EndFlag : MonoBehaviour
 
                 if (playerPhysics != null && playerAnimator != null && !_hasBeenPressed)
                 {
+                    _audioSource.Play();
                     player.MakePlayerJump();
                     _animator.SetTrigger("Pressed");
                     _hasBeenPressed = true;
@@ -45,7 +48,7 @@ public class EndFlag : MonoBehaviour
     {
         AnimationClip clip = _animator.runtimeAnimatorController.animationClips.First(ac => ac.name == "Pressed");
         if (clip != null)
-            yield return new WaitForSeconds(clip.length);
+            yield return new WaitForSeconds(clip.length + 1.0f);
         else
             Debug.LogError("Clip name was not found ", clip);
 

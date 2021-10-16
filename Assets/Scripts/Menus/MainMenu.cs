@@ -12,6 +12,14 @@ public class MainMenu : MonoBehaviour
     public GameObject SelectLevelMenu;
     public Slider slider;
     public TextMeshProUGUI progressText;
+    public AudioClip buttonSound;
+
+    AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public void LoadLevel(int sceneIndex)
     {
@@ -38,12 +46,18 @@ public class MainMenu : MonoBehaviour
 
             int buttonSceneIndex = levelNumber;
             cardButton.onClick.AddListener(() => LoadLevel(buttonSceneIndex));
+            cardButton.onClick.AddListener(() => PlayButtonClickSound());
         }
     }
 
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void PlayButtonClickSound()
+    {
+        audioSource.PlayOneShot(buttonSound);
     }
 
     IEnumerator LoadAsynchronously(int sceneIndex)
