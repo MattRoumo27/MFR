@@ -14,11 +14,20 @@ public class MainMenu : MonoBehaviour
     public TextMeshProUGUI progressText;
     public AudioClip buttonSound;
 
-    AudioSource audioSource;
+    AudioManager audioManager;
+
+    [SerializeField]
+    string hoverOverSound = "ButtonHover";
+    [SerializeField]
+    string buttonClickSound = "ButtonClick";
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        audioManager = AudioManager.instance;
+        if (audioManager == null)
+        {
+            Debug.LogError("No audiomanager found!");
+        }
     }
 
     public void LoadLevel(int sceneIndex)
@@ -57,7 +66,12 @@ public class MainMenu : MonoBehaviour
 
     public void PlayButtonClickSound()
     {
-        audioSource.PlayOneShot(buttonSound);
+        audioManager.PlaySound(buttonClickSound);
+    }
+
+    public void OnMouseOver()
+    {
+        audioManager.PlaySound(hoverOverSound);
     }
 
     IEnumerator LoadAsynchronously(int sceneIndex)

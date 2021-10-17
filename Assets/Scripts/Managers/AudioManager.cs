@@ -4,59 +4,65 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    // Audio players components.
-    public AudioSource EffectsSource;
-    public AudioSource MusicSource;
+    // Singleton
+    public static AudioManager instance;
 
-    // Random pitch adjustement range.
-    public float LowPitchRange = .95f;
-    public float HighPitchRange = 1.05f;
+    [SerializeField]
+    Sound[] sounds;
 
-    // Singleton instance
-    public static AudioManager Instance = null;
-
-    #region Awake
-    private void Awake()
+    void Awake()
     {
-        if (Instance == null)
+        if (instance != null)
         {
-            Instance = this;
+            if (instance != this)
+            {
+                Destroy(gameObject);
+            }
         }
-        else if (Instance != this)
+        else
         {
-            Destroy(gameObject);
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+    }
+
+    void Start()
+    {
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            GameObject _go = new GameObject("Sound_" + i + "_" + sounds[i].name);
+            _go.transform.SetParent(this.transform);
+            sounds[i].SetSource(_go.AddComponent<AudioSource>());
         }
 
-        DontDestroyOnLoad(gameObject);
+        PlaySound("MenuMusic");
     }
-    #endregion
 
-    #region PlayEffect
-    public void PlayEffect(AudioClip clip)
+    public void PlaySound(string _name)
     {
-        EffectsSource.clip = clip;
-        EffectsSource.Play();
-    }
-    #endregion
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            if (sounds[i].name == _name)
+            {
+                sounds[i].Play();
+                return;
+            }
+        }
 
-    #region PlayMusic
-    public void PlayMusic(AudioClip clip)
+        Debug.LogWarning("AudioManager: sound could not be found in list, " + _name);
+    }
+
+    public void StopSound(string _name)
     {
-        MusicSource.clip = clip;
-        MusicSource.Play();
-    }
-    #endregion
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            if (sounds[i].name == _name)
+            {
+                sounds[i].Stop();
+                return;
+            }
+        }
 
-    #region RandomSoundEffect
-    // Play a random clip from an array, and randomize the pitch slightly.
-    public void RandomSoundEffect(params AudioClip[] clips)
-    {
-        int randomIndex = Random.Range(0, clips.Length);
-        float randomPitch = Random.Range(LowPitchRange, HighPitchRange);
-
-        EffectsSource.pitch = randomPitch;
-        EffectsSource.clip = clips[randomIndex];
-        EffectsSource.Play();
+        Debug.LogWarning("AudioManager: sound could not be found in list, " + _name);
     }
-    #endregion
 }

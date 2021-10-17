@@ -7,13 +7,22 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public AudioClip buttonSound;
-    AudioSource audioSource;
+    AudioManager audioManager;
+
+    [SerializeField]
+    private string buttonHoverSound = "ButtonHover";
+    [SerializeField]
+    private string buttonClickSound = "ButtonClick";
 
     #region Start
     private void Start()
     {
         GameManager.Instance.SetMouseCursorVisibility(false);
-        audioSource = GetComponent<AudioSource>();
+        audioManager = AudioManager.instance;
+        if (audioManager == null)
+        {
+            Debug.LogError("No audiomanager found!");
+        }
     }
     #endregion
 
@@ -61,7 +70,12 @@ public class PauseMenu : MonoBehaviour
 
     public void PlayButtonClickSound()
     {
-        audioSource.PlayOneShot(buttonSound);
+        audioManager.PlaySound(buttonClickSound);
+    }
+
+    public void OnMouseOver()
+    {
+        audioManager.PlaySound(buttonHoverSound);
     }
 
     #region QuitGame
