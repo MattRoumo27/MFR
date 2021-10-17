@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
+    public Slider volumeSlider;
 
     public Dropdown resolutionDropdown;
 
@@ -15,6 +16,7 @@ public class SettingsMenu : MonoBehaviour
 
     void Start()
     {
+        // Add different screen resolutions to the list
         resolutions = Screen.resolutions;
 
         resolutionDropdown.ClearOptions();
@@ -37,6 +39,11 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
+        // Set the slider to the current volume settings of the mixer
+        float volumeValue;
+        audioMixer.GetFloat("volume", out volumeValue);
+        volumeSlider.value = Mathf.Pow(10, (volumeValue / 20.0f));
     }
 
     public void SetResolution(int resolutionIndex)
@@ -47,7 +54,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void SetVolume(float volume)
     {
-        audioMixer.SetFloat("volume", volume);
+        audioMixer.SetFloat("volume", Mathf.Log10(volume) * 20);
     }
 
     public void SetQuality(int qualityIndex)
