@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8e208dcef29d04396113c59a51f8a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
+  generalSounds:
   - name: Spawn
     clip: {fileID: 8300000, guid: b42e927dfadb368499302b185578ea90, type: 3}
     volume: 0.7
@@ -82,6 +82,14 @@ MonoBehaviour:
     pitch: 1
     randomVolume: 0
     randomPitch: 0
+    loop: 0
+    audioMixerGroup: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
+  - name: WingFlap
+    clip: {fileID: 8300000, guid: 3e64e1c9f6856814c9beeedddba28085, type: 3}
+    volume: 0.25
+    pitch: 1
+    randomVolume: 0.1
+    randomPitch: 0.2
     loop: 0
     audioMixerGroup: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
   footStepSounds:

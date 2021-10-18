@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     StateMachine playerStateMachine;
     #endregion
 
+    AudioManager audioManager;
+
     #region Character Movement
     public Vector2 startingPosition;
     Rigidbody2D rb;
@@ -61,6 +63,9 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("LookX", lookDirection.x);
         SetLockTime(1);
+
+        ConfigureAudioManager();
+        StartCoroutine(WaitToPlaySpawnSound());
     }
     #endregion
 
@@ -120,6 +125,22 @@ public class PlayerController : MonoBehaviour
         lockMovementTimer = seconds;
     }
     #endregion
+
+    void ConfigureAudioManager()
+    {
+        audioManager = AudioManager.instance;
+        if (audioManager == null)
+        {
+            Debug.LogError("Can't find AudioManager in current scene!");
+        }
+    }
+
+    IEnumerator WaitToPlaySpawnSound()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        audioManager.PlaySound("Spawn");
+    }
 
     #region Update Helpers
 

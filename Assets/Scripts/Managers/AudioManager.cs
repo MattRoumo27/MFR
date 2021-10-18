@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     [SerializeField]
-    Sound[] sounds;
+    Sound[] generalSounds;
 
     [SerializeField]
     Sound[] footStepSounds;
@@ -29,23 +29,23 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        PopulateWithSounds(sounds, "Sound");
-        PopulateWithSounds(footStepSounds, "FootstepSound");
+        PopulateSoundGameObjects(generalSounds, "Sound");
+        PopulateSoundGameObjects(footStepSounds, "FootstepSound");
 
         if (SceneManager.GetActiveScene().buildIndex == GameManager.MAIN_MENU_BUILD_INDEX)
             PlaySound("MenuMusic");
     }
 
-    private void PopulateWithSounds(Sound[] _arrayOfSounds, string _namePrefix)
+    private void PopulateSoundGameObjects(Sound[] _arrayOfSounds, string _namePrefix)
     {
         for (int i = 0; i < _arrayOfSounds.Length; i++)
         {
             string category = _namePrefix + "_" + i + "_";
-            AddSoundGameObject(category, _arrayOfSounds[i]);
+            AddSoundGameObjectAndSetAudioSource(category, _arrayOfSounds[i]);
         }
     }
 
-    public void AddSoundGameObject(string _name, Sound _sound)
+    public void AddSoundGameObjectAndSetAudioSource(string _name, Sound _sound)
     {
         GameObject _go = new GameObject(_name + _sound.name);
         _go.transform.SetParent(this.transform);
@@ -54,11 +54,11 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(string _name)
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < generalSounds.Length; i++)
         {
-            if (sounds[i].name == _name)
+            if (generalSounds[i].name == _name)
             {
-                sounds[i].Play();
+                generalSounds[i].Play();
                 return;
             }
         }
@@ -68,11 +68,11 @@ public class AudioManager : MonoBehaviour
 
     public void StopSound(string _name)
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < generalSounds.Length; i++)
         {
-            if (sounds[i].name == _name)
+            if (generalSounds[i].name == _name)
             {
-                sounds[i].Stop();
+                generalSounds[i].Stop();
                 return;
             }
         }
@@ -85,5 +85,29 @@ public class AudioManager : MonoBehaviour
     {
         int randomIndex = Random.Range(0, footStepSounds.Length);
         footStepSounds[randomIndex].Play();
+    }
+
+    public void PlayRandomSoundFromArray(string nameOfArray)
+    {
+        Sound[] sounds = null;
+
+        switch (nameOfArray)
+        {
+            case "generalSounds":
+                sounds = generalSounds;
+                break;
+            case "footStepSounds":
+                sounds = footStepSounds;
+                break;
+            default:
+                Debug.LogError("An invalid argument was passed through");
+                break;
+        }
+
+        if (sounds != null)
+        {
+            int randomIndex = Random.Range(0, sounds.Length);
+            sounds[randomIndex].Play();
+        }
     }
 }

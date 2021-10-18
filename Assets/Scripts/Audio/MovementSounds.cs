@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Footsteps : MonoBehaviour
+public class MovementSounds : MonoBehaviour
 {
     Camera mainCamera;
     AudioManager audioManager;
@@ -17,7 +17,7 @@ public class Footsteps : MonoBehaviour
         AssignCameraComponent();
     }
 
-    void AssignCameraComponent()
+    private void AssignCameraComponent()
     {
         GameObject camera = GameObject.FindWithTag("MainCamera");
         if (camera != null)
@@ -30,18 +30,29 @@ public class Footsteps : MonoBehaviour
         }
     }
 
-    // Called by Animator when the player has their foot on the ground
+    // Called by Animators during certain keyframes
     public void PlayFootStepSound()
     {
-        audioManager.PlayRandomFootstepSound();
+        audioManager.PlayRandomSoundFromArray("footStepSounds");
     }
 
     public void PlayEnemyFootStepSound()
     {
+        if (isOnScreen())
+            PlayFootStepSound();
+    }
+
+    public void PlayWingFlapSound()
+    {
+        if (isOnScreen())
+            audioManager.PlaySound("WingFlap");
+    }
+
+    private bool isOnScreen()
+    {
         Vector3 screenPoint = mainCamera.WorldToViewportPoint(transform.position);
         bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
 
-        if (onScreen)
-            PlayFootStepSound();
+        return onScreen;
     }
 }
