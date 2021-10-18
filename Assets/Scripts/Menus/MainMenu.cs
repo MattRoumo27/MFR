@@ -2,17 +2,17 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject loadingScreen;
-    public GameObject levelsPlaceholder;
+    public GameObject levelsReferencePoint;
     public GameObject levelCardPrefab;
     public GameObject SelectLevelMenu;
-    public Slider slider;
+    public Slider loadProgress;
     public TextMeshProUGUI progressText;
-    public AudioClip buttonSound;
 
     AudioManager audioManager;
 
@@ -23,39 +23,15 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
+        ConfigureAudioManager();
+    }
+
+    void ConfigureAudioManager()
+    {
         audioManager = AudioManager.instance;
         if (audioManager == null)
         {
-            Debug.LogError("No audiomanager found!");
-        }
-    }
-
-    public void LoadLevel(int sceneIndex)
-    {
-        SelectLevelMenu.SetActive(false);
-        StartCoroutine(LoadAsynchronously(sceneIndex));
-    }
-
-    public void CreateLevelButtons()
-    {
-        for (int levelNumber = 1; levelNumber < SceneManager.sceneCountInBuildSettings; levelNumber++)
-        {
-            GameObject levelCard = Instantiate(levelCardPrefab, levelsPlaceholder.transform);
-            RectTransform cardRect = (RectTransform)levelCard.transform;
-
-            const float padding = 50;
-            float spacingWidth = cardRect.rect.width + padding;
-
-            levelCard.transform.SetParent(levelsPlaceholder.transform);
-            levelCard.transform.position = levelCard.transform.position + new Vector3((levelNumber - 1) * spacingWidth, 0, 0);
-
-            Button cardButton = levelCard.GetComponent<Button>();
-            TextMeshProUGUI cardText = levelCard.GetComponentInChildren<TextMeshProUGUI>();
-            cardText.text = $"Level {levelNumber}";
-
-            int buttonSceneIndex = levelNumber;
-            cardButton.onClick.AddListener(() => LoadLevel(buttonSceneIndex));
-            cardButton.onClick.AddListener(() => PlayButtonClickSound());
+            Debug.LogError("No AudioManager found!");
         }
     }
 
@@ -64,6 +40,7 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
+    #region Audio
     public void PlayButtonClickSound()
     {
         audioManager.PlaySound(buttonClickSound);
@@ -72,6 +49,14 @@ public class MainMenu : MonoBehaviour
     public void OnMouseOver()
     {
         audioManager.PlaySound(hoverOverSound);
+    }
+    #endregion
+
+    #region Loading
+    public void LoadLevel(int sceneIndex)
+    {
+        SelectLevelMenu.SetActive(false);
+        StartCoroutine(LoadAsynchronously(sceneIndex));
     }
 
     IEnumerator LoadAsynchronously(int sceneIndex)
@@ -84,10 +69,61 @@ public class MainMenu : MonoBehaviour
         {
             float progress = Mathf.Clamp01(operation.progress / .9f);
 
-            slider.value = progress;
+            loadProgress.value = progress;
             progressText.text = progress * 100f + "%";
 
             yield return null;
         }
     }
+    #endregion
+
+    #region Levels
+    public void CreateLevelButtons()
+    {
+        for (int levelNumber = 1; levelNumber < SceneManager.sceneCountInBuildSettings; levelNumber++)
+        {
+            GameObject levelCard = Instantiate(levelCardPrefab, levelsReferencePoint.transform);
+            SetLevelCardParentAndPosition(levelCard, levelNumber);
+            ConfigureLevelCardButton(levelCard, levelNumber);
+            ConfigureEventTriggerForLevelCard(levelCard);
+        }
+    }
+
+    private void SetLevelCardParentAndPosition(GameObject levelCard, int levelNumber)
+    {
+        RectTransform cardRect = (RectTransform)levelCard.transform;
+
+        const float padding = 50;
+        float spacingWidth = cardRect.rect.width + padding;
+
+        levelCard.transform.SetParent(levelsReferencePoint.transform);
+        levelCard.transform.position = levelCard.transform.position + new Vector3((levelNumber - 1) * spacingWidth, 0, 0);
+    }
+
+    private void ConfigureLevelCardButton(GameObject levelCard, int levelNumber)
+    {
+        Button cardButton = levelCard.GetComponent<Button>();
+        TextMeshProUGUI cardText = levelCard.GetComponentInChildren<TextMeshProUGUI>();
+        cardText.text = $"Level {levelNumber}";
+
+        AddListeners(cardButton, levelNumber);
+    }
+
+    private void AddListeners(Button cardButton, int levelNumber)
+    {
+        int levelSceneIndex = levelNumber;
+        cardButton.onClick.AddListener(() => LoadLevel(levelSceneIndex));
+        cardButton.onClick.AddListener(() => PlayButtonClickSound());
+    }
+
+    private void ConfigureEventTriggerForLevelCard(GameObject levelCard)
+    {
+        EventTrigger.Entry eventType = new EventTrigger.Entry();
+        eventType.eventID = EventTriggerType.PointerEnter;
+        eventType.callback.AddListener((eventData) => { OnMouseOver(); });
+
+        EventTrigger cardTrigger = levelCard.AddComponent<EventTrigger>();
+        cardTrigger.triggers.Add(eventType);
+    }
+    #endregion
 }

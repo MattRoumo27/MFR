@@ -5506,14 +5506,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7507957435356599201, guid: c90b457d3ea5eb442af538a2ddf99b50, type: 3}
-      propertyPath: sounds.Array.data[1].name
-      value: MenuMusic
-      objectReference: {fileID: 0}
-    - target: {fileID: 7507957435356599201, guid: c90b457d3ea5eb442af538a2ddf99b50, type: 3}
-      propertyPath: sounds.Array.data[1].audioMixerGroup
-      value: 
-      objectReference: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
     - target: {fileID: 7507957435356599202, guid: c90b457d3ea5eb442af538a2ddf99b50, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5654,12 +5646,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingScreen: {fileID: 625465707}
-  levelsPlaceholder: {fileID: 1175780848}
+  levelsReferencePoint: {fileID: 1175780848}
   levelCardPrefab: {fileID: 2529448441203750790, guid: cc1a8a31ead31b44f8e19415b1e66322, type: 3}
   SelectLevelMenu: {fileID: 1875724050}
-  slider: {fileID: 23040163}
+  loadProgress: {fileID: 23040163}
   progressText: {fileID: 1304976385}
-  buttonSound: {fileID: 8300000, guid: 9df4c2e414fd7d847978300d2a2b0213, type: 3}
   hoverOverSound: ButtonHover
   buttonClickSound: ButtonClick
 --- !u!82 &2052304134
