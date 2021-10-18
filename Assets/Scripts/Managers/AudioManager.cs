@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,14 +11,14 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     Sound[] sounds;
 
+    [SerializeField]
+    Sound[] footStepSounds;
+
     void Awake()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
-            if (instance != this)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
         else
         {
@@ -28,14 +29,27 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < sounds.Length; i++)
-        {
-            GameObject _go = new GameObject("Sound_" + i + "_" + sounds[i].name);
-            _go.transform.SetParent(this.transform);
-            sounds[i].SetSource(_go.AddComponent<AudioSource>());
-        }
+        PopulateWithSounds(sounds, "Sound");
+        PopulateWithSounds(footStepSounds, "FootstepSound");
 
-        PlaySound("MenuMusic");
+        if (SceneManager.GetActiveScene().buildIndex == GameManager.MAIN_MENU_BUILD_INDEX)
+            PlaySound("MenuMusic");
+    }
+
+    private void PopulateWithSounds(Sound[] _arrayOfSounds, string _namePrefix)
+    {
+        for (int i = 0; i < _arrayOfSounds.Length; i++)
+        {
+            string category = _namePrefix + "_" + i + "_";
+            AddSoundGameObject(category, _arrayOfSounds[i]);
+        }
+    }
+
+    public void AddSoundGameObject(string _name, Sound _sound)
+    {
+        GameObject _go = new GameObject(_name + _sound.name);
+        _go.transform.SetParent(this.transform);
+        _sound.SetSource(_go.AddComponent<AudioSource>());
     }
 
     public void PlaySound(string _name)
@@ -64,5 +78,12 @@ public class AudioManager : MonoBehaviour
         }
 
         Debug.LogWarning("AudioManager: sound could not be found in list, " + _name);
+    }
+
+    // Given a list of names: play one of the footstep sounds randomly
+    public void PlayRandomFootstepSound()
+    {
+        int randomIndex = Random.Range(0, footStepSounds.Length);
+        footStepSounds[randomIndex].Play();
     }
 }

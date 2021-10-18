@@ -21,13 +21,9 @@ public class GameManager
     }
     #endregion
 
-    #region PlayerInfo
     public bool hasPlayerDied = false;
-    #endregion
 
-    #region CanPauseBeUsed
     public bool canPauseBeUsed = true;
-    #endregion
 
     #region LevelInfo
     private LevelData _levelInfo;

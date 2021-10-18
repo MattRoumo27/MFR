@@ -5,15 +5,19 @@ using UnityEngine;
 public class EndFlag : MonoBehaviour
 {
     Animator _animator;
-    AudioSource _audioSource;
+    AudioManager audioManager;
     bool _hasBeenPressed;
 
     #region Start
     private void Start()
     {
         _animator = GetComponentInChildren<Animator>();
-        _audioSource = GetComponent<AudioSource>();
         _hasBeenPressed = false;
+        audioManager = AudioManager.instance;
+        if (audioManager == null)
+        {
+            Debug.LogError("AudioManager is not defined in the scene");
+        }
     }
     #endregion
 
@@ -32,7 +36,7 @@ public class EndFlag : MonoBehaviour
 
                 if (playerPhysics != null && playerAnimator != null && !_hasBeenPressed)
                 {
-                    _audioSource.Play();
+                    audioManager.PlaySound("LevelComplete");
                     player.MakePlayerJump();
                     _animator.SetTrigger("Pressed");
                     _hasBeenPressed = true;

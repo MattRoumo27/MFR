@@ -70,7 +70,48 @@ MonoBehaviour:
     audioMixerGroup: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
   - name: ButtonClick
     clip: {fileID: 8300000, guid: ff02208ee3da9934c9d462ef263dd3b7, type: 3}
-    volume: 0.55
+    volume: 0.45
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+    audioMixerGroup: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
+  - name: LevelComplete
+    clip: {fileID: 8300000, guid: 4ca038e585e5a8147971661f1953eb27, type: 3}
+    volume: 0.45
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+    audioMixerGroup: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
+  footStepSounds:
+  - name: Footstep1
+    clip: {fileID: 8300000, guid: e85ebefcaa228bc42adb2554e5a428d4, type: 3}
+    volume: 0.25
+    pitch: 1
+    randomVolume: 0.1
+    randomPitch: 0.1
+    loop: 0
+    audioMixerGroup: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
+  - name: Footstep2
+    clip: {fileID: 8300000, guid: 363fb6bde7237674c9ab1b4ea4db05a3, type: 3}
+    volume: 0.25
+    pitch: 1
+    randomVolume: 0.1
+    randomPitch: 0.1
+    loop: 0
+    audioMixerGroup: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
+  - name: Footstep3
+    clip: {fileID: 8300000, guid: bd2e21727b290c94586e70231e309cbd, type: 3}
+    volume: 0.25
+    pitch: 1
+    randomVolume: 0.1
+    randomPitch: 0.1
+    loop: 0
+    audioMixerGroup: {fileID: 24300002, guid: e18679964096e174e87ed88e963e2043, type: 2}
+  - name: Footstep4
+    clip: {fileID: 8300000, guid: 7e30146df5f9bb84d9d63ed8211311b9, type: 3}
+    volume: 0.25
     pitch: 1
     randomVolume: 0.1
     randomPitch: 0.1
