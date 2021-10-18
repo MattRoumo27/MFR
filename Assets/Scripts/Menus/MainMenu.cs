@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     public GameObject loadingScreen;
     public GameObject levelsReferencePoint;
     public GameObject levelCardPrefab;
-    public GameObject SelectLevelMenu;
+    public GameObject selectLevelMenu;
     public Slider loadProgress;
     public TextMeshProUGUI progressText;
 
@@ -55,7 +55,7 @@ public class MainMenu : MonoBehaviour
     #region Loading
     public void LoadLevel(int sceneIndex)
     {
-        SelectLevelMenu.SetActive(false);
+        selectLevelMenu.SetActive(false);
         StartCoroutine(LoadAsynchronously(sceneIndex));
     }
 
